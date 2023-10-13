@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+long long n, a, i = 1, cifmax = -1, cifmaxnr = -1, ogl = 0, palindrom = 0, nrcifmax = 1, dif = 0, cuburi = 0, uc = 0, ucogl = 0, sdcif = 0;
+
+int main()
+{
+    ifstream fin("cladiri.in");
+    ofstream fout("cladiri.out");
+
+    fin >> n;
+
+    while(i <= n)
+    {
+        fin >> a;
+
+        int copiea = a;
+
+        while(a > 0)
+        {
+            uc = a % 10;
+            
+            if(uc > cifmaxnr)
+            {
+                cifmaxnr = uc;
+            }
+
+            ogl = ogl * 10 + uc;
+
+            a = a / 10;
+        }
+        
+        if(cifmaxnr > cifmax)
+        {
+            cifmax = cifmaxnr;
+            nrcifmax = 1;
+        }
+        else if(cifmaxnr == cifmax)
+        {
+            nrcifmax ++;
+        }
+
+        if(ogl == copiea)
+        {
+            palindrom ++;
+        }
+        else
+        {
+            while(copiea > 0 and ogl > 0)
+            {
+                uc = copiea % 10;
+                ucogl = ogl % 10;
+                
+                if(uc >= ucogl)
+                {
+                    sdcif = sdcif + uc - ucogl;
+                }
+                
+                else if(uc < ucogl)
+                {
+                    sdcif = sdcif + ucogl - uc;
+                }
+                
+                copiea = copiea / 10;
+                ogl = ogl / 10;
+            }
+            
+            cuburi = cuburi + sdcif / 2;
+            sdcif = 0;
+        }
+        
+        ogl = 0;
+        cifmaxnr = -1;
+
+        i++;
+    }
+    
+    fout << cifmax << " " << nrcifmax;
+    fout << '\n';
+    fout << palindrom;
+    fout << '\n';
+    fout << cuburi;
+
+    return 0;
+}
